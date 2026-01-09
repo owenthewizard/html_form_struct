@@ -1,0 +1,21 @@
+[package]
+name = "html_form_struct_macro"
+version = "0.1.0"
+authors = ["Owen Walpole <owen@walpole.dev>"]
+edition = "2024"
+include = ["src/**", "Cargo.toml", "../README.md", "../LICENSE*"]
+license = "MIT OR Apache-2.0"
+readme = "../README.md"
+repository = "https://github.com/owenthewizard/html_form_struct"
+rust-version = "1.85"
+description = "Procedural macros for html_form_struct."
+
+[lib]
+proc-macro = true
+
+[dependencies]
+heck = "0.5.0"
+proc-macro2 = { version = "1.0.93", default-features = false }
+quote = { version = "1.0.38", default-features = false }
+scraper = { version = "0.25.0", default-features = false }
+syn = { version = "2.0.96", default-features = false }

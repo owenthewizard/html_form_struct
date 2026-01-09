@@ -1,0 +1,50 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: ["master"]
+    paths:
+      - "**/*.rs"
+      - "**/Cargo.toml"
+      - ".github/workflows/ci.yml"
+
+  pull_request:
+    branches: ["master"]
+    paths:
+      - "**/*.rs"
+      - "**/Cargo.toml"
+      - ".github/workflows/ci.yml"
+
+env:
+  CARGO_TERM_COLOR: always
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
+  RUSTFLAGS: -Dwarnings
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: mozilla-actions/sccache-action@v0.0.9
+      - uses: Swatinem/rust-cache@v2
+
+      - name: clippy
+        run: cargo clippy --workspace
+
+      - name: rustfmt
+        run: cargo fmt --all --check
+
+      - name: build
+        run: cargo build --workspace --verbose
+
+      - name: build (examples)
+        run: cargo build --workspace --verbose --examples
+
+      # no tests at the moment...
+      #- name: test
+      #  run: cargo test --verbose
+
+      - name: semver-checks
+        uses: obi1kenobi/cargo-semver-checks-action@v2
