@@ -8,7 +8,7 @@ use heck::{ToSnakeCase, ToUpperCamelCase};
 use proc_macro2::{Ident, Span};
 use quote::quote;
 use scraper::{Html, Selector};
-use syn::{parse_quote, Attribute, ItemStruct, LitStr, Token, Visibility};
+use syn::{Attribute, ItemStruct, LitStr, Token, Visibility, parse_quote};
 use syn::{
     parse::{Parse, ParseStream},
     parse_macro_input,
