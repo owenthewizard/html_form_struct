@@ -1,6 +1,6 @@
 [package]
 name = "html_form_struct"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Owen Walpole <owen@walpole.dev>"]
 categories = ["parser-implementations", "web-programming"]
 edition = "2024"
@@ -17,8 +17,7 @@ resolver = "3"
 members = ["html_form_struct_macro"]
 
 [dependencies]
-html_form_struct_macro = { version = "0.1.0", path = "html_form_struct_macro" }
+html_form_struct_macro = { version = "=0.2.0", path = "html_form_struct_macro" }
 
 [dev-dependencies]
 fake = "4.4.0"
-serde = { version = "1.0.228", features = ["derive"] }

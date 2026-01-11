@@ -8,7 +8,9 @@ use fake::{
     },
 };
 
-form_struct!("examples/readme.html", "form#register", Registration);
+#[form_struct("examples/readme.html", "form#register")]
+#[derive(Debug)]
+pub struct Registration;
 
 fn main() {
     let username: String = Username().fake();

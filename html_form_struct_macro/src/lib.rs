@@ -8,19 +8,61 @@ use heck::{ToSnakeCase, ToUpperCamelCase};
 use proc_macro2::{Ident, Span};
 use quote::quote;
 use scraper::{Html, Selector};
-use syn::{LitStr, Token};
+use syn::{parse_quote, Attribute, ItemStruct, LitStr, Token, Visibility};
 use syn::{
     parse::{Parse, ParseStream},
     parse_macro_input,
 };
 
+#[proc_macro_attribute]
+pub fn form_struct(
+    attr: proc_macro::TokenStream,
+    item: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    let args = parse_macro_input!(attr as AttrArgs);
+    let item = parse_macro_input!(item as ItemStruct);
+
+    if !item.generics.params.is_empty() || item.generics.where_clause.is_some() {
+        return syn::Error::new_spanned(item.generics, "form_struct does not support generics")
+            .to_compile_error()
+            .into();
+    }
+
+    let fields_ok = match &item.fields {
+        syn::Fields::Unit => true,
+        syn::Fields::Named(fields) => fields.named.is_empty(),
+        syn::Fields::Unnamed(fields) => fields.unnamed.is_empty(),
+    };
+
+    if !fields_ok {
+        return syn::Error::new_spanned(
+            item.fields,
+            "form_struct requires an empty struct declaration",
+        )
+        .to_compile_error()
+        .into();
+    }
+
+    let args = Args {
+        path: args.path,
+        form: args.form,
+        name: item.ident.clone(),
+    };
+
+    form_struct_impl(args, item.vis.clone(), item.attrs.clone())
+}
+
 #[proc_macro]
 pub fn form_struct_(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    form_struct(input)
-}
-#[proc_macro]
-pub fn form_struct(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let args = parse_macro_input!(input as Args);
+    form_struct_impl(args, parse_quote!(pub), Vec::new())
+}
+
+fn form_struct_impl(
+    args: Args,
+    vis: Visibility,
+    struct_attrs: Vec<Attribute>,
+) -> proc_macro::TokenStream {
     // TODO
     let (_html_path, html_source) = match load_html(&args.path) {
         Ok(data) => data,
@@ -54,6 +96,11 @@ pub fn form_struct(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         return tokens.into();
     }
 
+    let enum_attrs: Vec<Attribute> = struct_attrs
+        .iter()
+        .filter(|attr| attr.path().is_ident("derive"))
+        .cloned()
+        .collect();
     let mut enum_defs = Vec::new();
     let mut field_defs = Vec::new();
 
@@ -126,8 +173,8 @@ pub fn form_struct(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 }
 
                 enum_defs.push(quote! {
-                    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
-                    pub enum #enum_ident {
+                    #( #enum_attrs )*
+                    #vis enum #enum_ident {
                         #( #variant_defs, )*
                     }
                 });
@@ -154,13 +201,12 @@ pub fn form_struct(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let expanded = quote! {
         //const _HTML_FORM_STRUCT_TRACK: &str = include_str!(#html_path_literal);
 
-        #( #enum_defs )*
-
-        #[derive(Debug, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
-        pub struct #ident {
+        #( #struct_attrs )*
+        #vis struct #ident {
             #( #field_defs, )*
         }
 
+        #( #enum_defs )*
     };
 
     expanded.into()
@@ -172,6 +218,11 @@ struct Args {
     name: Ident,
 }
 
+struct AttrArgs {
+    path: LitStr,
+    form: LitStr,
+}
+
 impl Parse for Args {
     fn parse(input: ParseStream) -> syn::Result<Self> {
         let path: LitStr = input.parse()?;
@@ -180,7 +231,33 @@ impl Parse for Args {
         input.parse::<Token![,]>()?;
         let name: Ident = input.parse()?;
 
+        if input.peek(Token![,]) {
+            input.parse::<Token![,]>()?;
+        }
+
+        if !input.is_empty() {
+            return Err(input.error("unexpected tokens in macro arguments"));
+        }
+
         Ok(Self { path, form, name })
+    }
+}
+
+impl Parse for AttrArgs {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let path: LitStr = input.parse()?;
+        input.parse::<Token![,]>()?;
+        let form: LitStr = input.parse()?;
+
+        if input.peek(Token![,]) {
+            input.parse::<Token![,]>()?;
+        }
+
+        if !input.is_empty() {
+            return Err(input.error("unexpected tokens in attribute arguments"));
+        }
+
+        Ok(Self { path, form })
     }
 }
 

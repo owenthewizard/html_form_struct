@@ -19,7 +19,10 @@ Generate a struct from an HTML form.
 ```rust
 use html_form_struct::form_struct;
 
-form_struct!("index.html", "form#register", Registration);
+#[form_struct("index.html", "form#register")]
+// important: derive must come after form_struct
+#[derive(Debug, Clone, Eq, PartialEq, Hash, serde::Serialize, serde::Deserialize)]
+pub struct Registration;
 ```
 
 Output:

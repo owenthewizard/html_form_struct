@@ -1,6 +1,6 @@
 [package]
 name = "html_form_struct_macro"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Owen Walpole <owen@walpole.dev>"]
 edition = "2024"
 include = ["src/**", "Cargo.toml", "../README.md", "../LICENSE*"]
