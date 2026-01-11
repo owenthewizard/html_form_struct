@@ -47,7 +47,7 @@ jobs:
       - name: build
         run: cargo build --workspace --verbose
       - name: examples
-        run: cargo build --worksapce --verbose --examples
+        run: cargo build --workspace --verbose --examples
 
   semver:
     runs-on: ubuntu-latest
