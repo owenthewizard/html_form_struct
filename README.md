@@ -3,7 +3,7 @@
 Generate a struct from an HTML form.
 
 [![Rust](https://img.shields.io/badge/Language-Rust-blue?style=for-the-badge)](https://www.rust-lang.org)
-[![Build Status](https://github.com/owenthewizard/html_form_struct/actions/workflows/ci.yml/badge.svg?style=for-the-badge)](https://github.com/owenthewizard/html_form_struct/actions/workflows/ci.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/owenthewizard/html_form_struct/ci.yml?style=for-the-badge)](https://github.com/owenthewizard/html_form_struct/actions/workflows/ci.yml)
 [![Crates.io](https://img.shields.io/crates/v/html_form_struct?style=for-the-badge&color=fc8d62)](https://crates.io/crates/html_form_struct)
 [![Documentation](https://img.shields.io/docsrs/html_form_struct/latest.svg?style=for-the-badge&color=66c2a5)](https://docs.rs/html_form_struct/latest/html_form_struct/)
 [![Crate Downloads](https://img.shields.io/crates/dv/html_form_struct.svg?style=for-the-badge)](https://crates.io/crates/html_form_struct)
