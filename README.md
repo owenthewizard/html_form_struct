@@ -2,19 +2,6 @@
 
 Generate a struct from an HTML form.
 
-[![Rust](https://img.shields.io/badge/Language-Rust-blue?style=for-the-badge)](https://www.rust-lang.org)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/owenthewizard/html_form_struct/ci.yml?style=for-the-badge)](https://github.com/owenthewizard/html_form_struct/actions/workflows/ci.yml)
-[![Crates.io](https://img.shields.io/crates/v/html_form_struct?style=for-the-badge&color=fc8d62)](https://crates.io/crates/html_form_struct)
-[![Documentation](https://img.shields.io/docsrs/html_form_struct/latest.svg?style=for-the-badge&color=66c2a5)](https://docs.rs/html_form_struct/latest/html_form_struct/)
-[![Crate Downloads](https://img.shields.io/crates/dv/html_form_struct.svg?style=for-the-badge)](https://crates.io/crates/html_form_struct)
-[![License (MIT)](https://img.shields.io/badge/License-MIT-f46623?style=for-the-badge)](LICENSE-MIT.md)
-[![License (Apache 2.0)](https://img.shields.io/badge/License-Apache-f46623?style=for-the-badge)](LICENSE-APACHE.md)
-[![Contributors](https://img.shields.io/github/contributors/owenthewizard/html_form_struct?style=for-the-badge&color=8da0cb)](https://github.com/owenthewizard/html_form_struct/graphs/contributors)
-[![GitHub forks](https://img.shields.io/github/forks/owenthewizard/html_form_struct?style=for-the-badge&color=8da0cb)](https://github.com/owenthewizard/html_form_struct/network/members)
-[![Stars](https://img.shields.io/github/stars/owenthewizard/html_form_struct?style=for-the-badge&color=8da0cb)](https://github.com/owenthewizard/html_form_struct/stargazers)
-[![Issues](https://img.shields.io/github/issues/owenthewizard/html_form_struct?style=for-the-badge)](https://github.com/owenthewizard/html_form_struct/issues)
-[![Funding](https://img.shields.io/badge/Funding-Sponsor%20me%21-yellow?style=for-the-badge)](https://github.com/sponsors/owenthewizard)
-
 ## ▶️ Quick Start
 
 ```html
