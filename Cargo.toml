@@ -20,4 +20,4 @@ members = ["html_form_struct_macro"]
 html_form_struct_macro = { version = "=0.2.0", path = "html_form_struct_macro" }
 
 [dev-dependencies]
-fake = "4.4.0"
+fake = "5.1.0"
